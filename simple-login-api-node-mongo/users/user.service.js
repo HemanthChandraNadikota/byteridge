@@ -3,26 +3,57 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 const User = db.User;
+const UserLog =  db.UserLog;
 
 module.exports = {
     authenticate,
+    logout,
     getAll,
     getById,
     create,
     update,
-    delete: _delete
+    delete: _delete,
+    getaudit,
 };
 
-async function authenticate({ username, password }) {
+async function authenticate({ username, password }, ip) {
     const user = await User.findOne({ username });
     if (user && bcrypt.compareSync(password, user.hash)) {
+        const logs = new UserLog({
+            userId : user._id,
+            _ip : ip,
+        })
+
+        await logs.save()
+
         const { hash, ...userWithoutHash } = user.toObject();
         const token = jwt.sign({ sub: user.id }, config.secret);
+        const logid = logs._id ;
         return {
             ...userWithoutHash,
-            token
+            token,
+            logid,
         };
     }
+}
+
+async function logout(token,logId){
+    let userid;
+    try {
+        const decoded = jwt.verify(token,config.secret );
+        if (decoded && decoded.sub) {
+             userid = decoded.sub
+        } else {
+            console.log('The token does not have a sub claim.');
+        }
+    } catch (err) {
+        console.log('Error verifying or decoding the token:', err.message);
+    }
+
+    
+    await UserLog.findByIdAndUpdate(logId, {
+        logoutTime: Date.now()
+    });
 }
 
 async function getAll() {
@@ -72,4 +103,12 @@ async function update(id, userParam) {
 
 async function _delete(id) {
     await User.findByIdAndRemove(id);
+}
+
+async function getaudit(){
+    try{
+        return await UserLog.find({})
+    }catch(err){
+        console.log(err)
+    }
 }

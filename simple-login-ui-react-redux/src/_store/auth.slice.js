@@ -70,7 +70,9 @@ function createExtraActions() {
     function logout() {
         return createAsyncThunk(
             `${name}/logout`,
-            function (arg, { dispatch }) {
+            async function (arg, { dispatch }) {
+                const logId = JSON.parse(localStorage.getItem('auth')).logid
+                await fetchWrapper.post(`${baseUrl}/logout`,{ logId: logId });
                 dispatch(authActions.setAuth(null));
                 localStorage.removeItem('auth');
                 history.navigate('/account/login');
