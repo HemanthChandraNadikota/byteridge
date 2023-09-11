@@ -6,6 +6,7 @@ import { authActions } from '_store';
 export { Nav };
 
 function Nav() {
+    const userRole =  JSON.parse(localStorage.getItem('auth'))?.role
     const auth = useSelector(x => x.auth.value);
     const dispatch = useDispatch();
     const logout = () => dispatch(authActions.logout());
@@ -18,6 +19,7 @@ function Nav() {
             <div className="navbar-nav">
                 <NavLink to="/" className="nav-item nav-link">Home</NavLink>
                 <NavLink to="/users" className="nav-item nav-link">Dashboard</NavLink>
+                {userRole === 'Auditor' && <NavLink to="/users/audit" className="nav-item nav-link">Audit</NavLink>}
                 <button onClick={logout} className="btn btn-link nav-item nav-link">Logout</button>
             </div>
         </nav>

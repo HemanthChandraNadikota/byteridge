@@ -5,6 +5,7 @@ import { Nav, Alert, PrivateRoute } from '_components';
 import { Home } from 'home';
 import { AccountLayout } from 'account';
 import { UsersLayout } from 'users';
+import AuditPage from '_components/AuditPage';
 
 
 export { App };
@@ -24,6 +25,7 @@ function App() {
                     {/* private */}
                     <Route element={<PrivateRoute />}>
                         <Route path="/" element={<Home />} />
+                        <Route path="users/audit" element={<AuditPage/>} />
                         <Route path="users/*" element={<UsersLayout />} />
                     </Route>
                     {/* public */}

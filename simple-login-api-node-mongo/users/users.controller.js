@@ -6,7 +6,7 @@ const userService = require('./user.service');
 router.post('/authenticate', authenticate);
 router.post('/register', register);
 router.post('/logout',logout);
-router.get('/audit',audit);
+router.get('/audit', auditorCheck , audit);
 router.get('/current', getCurrent);
 router.get('/:id', getById);
 router.put('/:id', update);
@@ -69,4 +69,8 @@ function audit(req, res, next) {
     userService.getaudit()
         .then(userlogs => res.json(userlogs))
         .catch(err => next(err));
+}
+
+function auditorCheck(req,res,next){
+    userService.auditorCheck(req,res,next)
 }

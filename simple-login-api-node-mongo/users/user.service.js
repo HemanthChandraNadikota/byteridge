@@ -14,6 +14,7 @@ module.exports = {
     update,
     delete: _delete,
     getaudit,
+    auditorCheck,
 };
 
 async function authenticate({ username, password }, ip) {
@@ -107,8 +108,19 @@ async function _delete(id) {
 
 async function getaudit(){
     try{
-        return await UserLog.find({})
+        return await UserLog.find()
+        .populate('userId', 'firstName username role')
+        .sort({ 'loginTime': -1 });
     }catch(err){
         console.log(err)
+    }
+}
+
+async function auditorCheck(req, res, next) {
+    const user = await User.findById(req.user.sub);
+    if (user && user.role === 'Auditor') {
+        next();
+    } else {
+        res.status(401).send('Unauthorized');
     }
 }
