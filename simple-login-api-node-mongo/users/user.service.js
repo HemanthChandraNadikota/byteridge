@@ -109,7 +109,7 @@ async function _delete(id) {
 async function getaudit(){
     try{
         return await UserLog.find()
-        .populate('userId', 'firstName username role')
+        .populate('userId', 'firstName lastName username role')
         .sort({ 'loginTime': -1 });
     }catch(err){
         console.log(err)

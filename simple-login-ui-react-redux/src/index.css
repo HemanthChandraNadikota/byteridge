@@ -1,3 +1,43 @@
 .app-container {
     min-height: 350px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.pagination li {
+    list-style-type: none;
+    margin: 0 5px;
+}
+
+.pagination li a {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s, color 0.3s;
+    color: #333;
+    text-decoration: none;
+}
+
+.pagination li a.active, .pagination li a:hover {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+.pagination li.disabled a {
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.audit-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+

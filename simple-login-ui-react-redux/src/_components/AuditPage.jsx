@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from "react-js-pagination";
 import { useNavigate } from 'react-router-dom';
+import '../index.css'
+
 const AuditPage = () => {
     const navigate = useNavigate()
     const [auditData, setAuditData] = useState([]);
     const [activePage, setActivePage] = useState(1);
-    const itemsPerPage = 20;
+    const itemsPerPage = 8;
     const user =  JSON.parse(localStorage.getItem('auth'))
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Bearer ${user.token}`);
@@ -27,9 +29,9 @@ const AuditPage = () => {
     }, [navigate,user]);
 
     return (
-        <div>
-            <h2>Audit Page</h2>
-            <table>
+        <div className='audit-page'>
+            <h2>Audit Logs</h2>
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>First Name</th>
