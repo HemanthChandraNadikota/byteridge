@@ -3,14 +3,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { authActions } from '_store';
 
 export { Login };
 
 function Login() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     // form validation rules 
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
@@ -23,7 +21,7 @@ function Login() {
     const { errors, isSubmitting } = formState;
 
     function onSubmit({ username, password }) {
-        return dispatch(authActions.login({ username, password , navigate}));
+        return dispatch(authActions.login({ username, password}));
     }
 
     return (

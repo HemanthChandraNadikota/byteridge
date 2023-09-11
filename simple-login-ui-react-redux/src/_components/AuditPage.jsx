@@ -38,6 +38,7 @@ const AuditPage = () => {
                         <th>Last Name</th>
                         <th>Username</th>
                         <th>Role</th>
+                        <th>IP</th>
                         <th>Login Time</th>
                         <th>Logout Time</th>
                     </tr>
@@ -49,6 +50,7 @@ const AuditPage = () => {
                             <td>{entry.userId.lastName}</td>
                             <td>{entry.userId.username}</td>
                             <td>{entry.userId.role}</td>
+                            <td>{entry._ip}</td>
                             <td>{new Date(entry.loginTime).toLocaleString()}</td>
                             <td>{entry.logoutTime ? new Date(entry.logoutTime).toLocaleString() : 'N/A'}</td>
                         </tr>

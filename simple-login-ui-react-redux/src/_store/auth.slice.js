@@ -46,7 +46,7 @@ function createExtraActions() {
     function login() {
         return createAsyncThunk(
             `${name}/login`,
-            async function ({ username, password,navigate }, { dispatch }) {
+            async function ({ username, password }, { dispatch }) {
                 dispatch(alertActions.clear());
                 try {
                     const user = await fetchWrapper.post(`${baseUrl}/authenticate`, { username, password });
@@ -56,12 +56,10 @@ function createExtraActions() {
 
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('auth', JSON.stringify(user));
-                    console.log(user.role)
-                    if (user.role === 'Auditor') {
-                        navigate('/users/audit');
-                    } else {
-                        navigate('/');
-                    }
+
+                    // get return url from location state or default to home page
+                    const { from } = history.location.state || { from: { pathname: '/' } };
+                    history.navigate(from);
                 } catch (error) {
                     dispatch(alertActions.error(error));
                 }
